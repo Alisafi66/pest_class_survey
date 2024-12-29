@@ -1,0 +1,50 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f4f4f4;
+    font-family: Arial, sans-serif;
+}
+
+#container {
+    text-align: center;
+}
+
+#image-display {
+    max-width: 90%;
+    max-height: 80vh;
+    margin-bottom: 20px;
+}
+
+#buttons {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+#buttons button {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    color: white;
+    border: none;
+    border-radius: 5px;
+}
+
+#buttons button:hover {
+    opacity: 0.8;
+}
+
+#buttons button:nth-child(1) {
+    background-color: green; /* Yes */
+}
+
+#buttons button:nth-child(2) {
+    background-color: red; /* No */
+}
+
+#buttons button:nth-child(3) {
+    background-color: grey; /* Not Sure */
+}
