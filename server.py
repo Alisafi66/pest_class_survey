@@ -1,9 +1,9 @@
 import os
 import csv
-from flask import Flask, jsonify, request, send_from_directory, render_template_string
+from flask import Flask, jsonify, request, send_from_directory, render_template
 
 app = Flask(__name__)
-image_folder = 'images'
+image_folder = 'static/images'  # Move the images folder inside the static folder for easier access
 csv_filename = "responses.csv"
 
 # HTML content for the index page
@@ -14,7 +14,7 @@ html_content = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Viewer</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
     <div id="container">
@@ -25,7 +25,7 @@ html_content = """
             <button onclick="recordResponse('Not Sure')">Not Sure</button>
         </div>
     </div>
-    <script src="/static/script.js"></script>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>
 """
@@ -90,4 +90,4 @@ def serve_static(filename):
     return send_from_directory('static', filename)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)  # Change the port here
+    app.run(debug=True, port=5001)  # For local development, port 5001
