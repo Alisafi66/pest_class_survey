@@ -3,9 +3,7 @@ import csv
 from flask import Flask, jsonify, request, send_from_directory, render_template_string
 
 app = Flask(__name__)
-
-# Image folder and CSV filename
-image_folder = 'static/images'
+image_folder = 'images'
 csv_filename = "responses.csv"
 
 # HTML content for the index page
@@ -16,16 +14,18 @@ html_content = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Image Viewer</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="/static/styles.css">
 </head>
 <body>
     <div id="container">
         <img id="image-display" src="" alt="Image" />
         <div id="buttons">
-            <button onclick="nextImage()">Next</button>
+            <button onclick="recordResponse('Yes')">Yes</button>
+            <button onclick="recordResponse('No')">No</button>
+            <button onclick="recordResponse('Not Sure')">Not Sure</button>
         </div>
     </div>
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+    <script src="/static/script.js"></script>
 </body>
 </html>
 """
@@ -89,22 +89,6 @@ def submit_responses():
 def serve_static(filename):
     return send_from_directory('static', filename)
 
-# Route to view the responses stored in the CSV file
-@app.route('/responses')
-def view_responses():
-    if os.path.exists(csv_filename):
-        with open(csv_filename, 'r') as csvfile:
-            reader = csv.reader(csvfile)
-            rows = list(reader)
-        
-        # Create HTML table from CSV data
-        table_html = "<table border='1'><tr><th>Image Name</th><th>Responses</th></tr>"
-        for row in rows[1:]:  # Skip header row
-            table_html += f"<tr><td>{row[0]}</td><td>{', '.join(row[1:])}</td></tr>"
-        table_html += "</table>"
-        return table_html
-    else:
-        return "<p>No responses yet.</p>"
-
 if __name__ == '__main__':
-    app.run(debug=False)
+    from waitress import serve
+    app.run(debug=True, host='0.0.0.0', port=5001)
